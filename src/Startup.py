@@ -3,6 +3,7 @@ import curses
 import State
 from DiContainer import DiContainer
 from modules.db.context import DbContext
+from modules.logging.Logger import Logger
 from modules.user.context import UserContext
 from modules.blockchain.ChainHandler import ChainHandler
 from modules.view.RenderEngine import Loader as RenderEngine
@@ -16,8 +17,8 @@ class Startup:
         Startup.initialize_di_container(di_container, stdscr)
         # Startup.initialize_views(di_container)
         Startup.validate_blockchain()
-
-        server = Server()
+        Logger.load_logs()
+        Server()
 
     def initialize_curses(stdscr):
         curses.curs_set(0)
