@@ -6,7 +6,7 @@ from modules.db.context import DbContext
 from modules.user.context import UserContext
 from modules.blockchain.ChainHandler import ChainHandler
 from modules.view.RenderEngine import Loader as RenderEngine
-
+from modules.server.Server import Server
 class Startup:
 
     @staticmethod
@@ -16,6 +16,8 @@ class Startup:
         Startup.initialize_di_container(di_container, stdscr)
         # Startup.initialize_views(di_container)
         Startup.validate_blockchain()
+
+        server = Server()
 
     def initialize_curses(stdscr):
         curses.curs_set(0)
