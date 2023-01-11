@@ -36,3 +36,8 @@ while cont_flag:
     else:
         send(DISCONNECT_MESSAGE)
         cont_flag = False
+
+# class Client:
+
+#     def __init__(self):
+        
