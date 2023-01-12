@@ -25,6 +25,7 @@ class Server:
 
     def p2p_connection():
         #TODO: implement connection_handler to different p2p servers
+        # TODO: loop through all possible ips in range 192.168.68.1 -> 255
         Logger.log("SERVER","CONNECT TO PEER","connected to peer connection at peer")
         
     def client_connection(self, conn, addr):
