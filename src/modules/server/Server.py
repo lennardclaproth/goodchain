@@ -77,7 +77,7 @@ class Server:
                         send_length += b' ' * (self.HEADER - len(send_length))
                         # client.send("hello".encode(self.FORMAT))
                         client.send(send_length)
-                        client.send(message)
+                        # client.send(message)
                         # client.send("!DISCONNECT".encode(self.FORMAT))
                     except OSError:
                         continue
@@ -111,7 +111,7 @@ class Server:
                         conn.send(return_message.encode(self.FORMAT))
                     else:
                         connected = False
-                        Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> message empty.")
+                        # Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> message empty.")
                 except ConnectionResetError:
                     connected = False
                     Logger.log("SERVER ERROR", "CLIENT DISCONNECT", f"{addr} >> connection reset by peer.")
