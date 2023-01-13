@@ -7,7 +7,7 @@ from modules.logging.Logger import Logger
 from modules.user.context import UserContext
 from modules.blockchain.ChainHandler import ChainHandler
 from modules.view.RenderEngine import Loader as RenderEngine
-from modules.server import Server
+from modules.test.Server import Server
 class Startup:
 
     @staticmethod
