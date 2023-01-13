@@ -7,26 +7,35 @@ from modules.logging.Logger import Logger
 class Server:
 
     def __init__(self):
-        Logger.log("SERVER","IP ALLOCATION",f"{socket.gethostbyname(socket.gethostname())}")
-        if str(socket.gethostbyname(socket.gethostname())).__contains__('192.168.64') is True:
-            self.IP_ADDR = socket.gethostbyname(socket.gethostname())
-        else:
-            self.IP_ADDR = '192.168.64.1'
+        # Logger.log("SERVER","IP ALLOCATION",f"{socket.gethostbyname(socket.gethostname())}")
+        # if str(socket.gethostbyname(socket.gethostname())).__contains__('192.168.64') is True:
+        #     self.IP_ADDR = socket.gethostbyname(socket.gethostname())
+        # else:
+        #     self.IP_ADDR = '192.168.64.1'
         self.PORT = 5050
         self.HEADER = 64
         self.FORMAT = 'utf-8'
         self.SERVER_INSTANCE = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
-            self.SERVER_INSTANCE.bind((self.IP_ADDR,self.PORT))
+            self.allocate_ip()
+            server_thread = threading.Thread(target=self.server_start, args=())
+            server_thread.start()
+            broadcast_thread = threading.Thread(target=self.broadcast, args=())
+            broadcast_thread.start()
         except Exception as e:
             Logger.log("SERVER", "ERROR", f"An error occured while starting the server nested exception is{e}")
-        server_thread = threading.Thread(target=self.server_start, args=())
-        server_thread.start()
-        broadcast_thread = threading.Thread(target=self.broadcast, args=())
-        broadcast_thread.start()
+
+    def allocate_ip(self):
+        for i in range(1, 255):
+            try:
+                Logger.log("SERVER", "ASSIGN ADDRESS", f"Trying to bind ip 192.168.64.{i}")
+                self.SERVER_INSTANCE.bind((f'192.168.64.{i}',self.PORT))
+                break
+            except Exception as e:
+                Logger.log("SERVER", "ERROR", f"An error occured while starting the server nested exception is{e}")
+                continue
 
     def server_start(self):
-        
         # TODO: check if discoverable ip already in connected ip's
         # TODO: connect if not
         try:
