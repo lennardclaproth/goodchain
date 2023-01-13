@@ -53,9 +53,9 @@ class Server:
             thread.start()
 
     def broadcast(self):
-    #       TODO: implement connection_handler to different p2p servers
-    #       TODO: loop through all possible ips in range 192.168.68.1 -> 255
-    #       TODO: implement actionQueue
+    #       TODO: implement connection_handler to different p2p servers -> done
+    #       TODO: loop through all possible ips in range 192.168.68.1 -> 255 -> done
+    #       TODO: implement actionQueue -> todo
     #       TODO: make connection pool
     #     while True:
     #         # Logger.log("SERVER","CONNECT TO PEER","connected to peer connection at peer")
@@ -77,13 +77,12 @@ class Server:
                         send_length += b' ' * (self.HEADER - len(send_length))
                         # client.send("hello".encode(self.FORMAT))
                         client.send(send_length)
-                        # client.send(message)
+                        client.send(message)
                         # client.send("!DISCONNECT".encode(self.FORMAT))
                     except OSError:
                         continue
                     except Exception as e:
                         Logger.log("SERVER", "ERROR", f"An error occured while trying to broadcast to IP:192.168.64.{i} nested exception is {e}")
-            time.sleep(1)
 
     def send_message(self):
         server = socket.socket()
