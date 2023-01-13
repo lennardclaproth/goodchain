@@ -7,7 +7,6 @@ from modules.logging.Logger import Logger
 from modules.user.context import UserContext
 from modules.blockchain.ChainHandler import ChainHandler
 from modules.view.RenderEngine import Loader as RenderEngine
-from modules.server.Server import Server
 class Startup:
 
     @staticmethod
@@ -18,6 +17,7 @@ class Startup:
         # Startup.initialize_views(di_container)
         Startup.validate_blockchain()
         Logger.load_logs()
+        from modules.server.Server import Server
         Server()
 
     def initialize_curses(stdscr):
