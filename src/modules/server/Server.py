@@ -7,6 +7,7 @@ from modules.logging.Logger import Logger
 class Server:
 
     def __init__(self):
+        Logger.log("SERVER","IP ALLOCATION",f"{socket.gethostbyname(socket.gethostname())}")
         if str(socket.gethostbyname(socket.gethostname())).__contains__('192.168.64') is True:
             self.IP_ADDR = socket.gethostbyname(socket.gethostname())
         else:
