@@ -66,15 +66,24 @@ class Server:
                 if i is not int(own_ip):
                     ADDR = (f'192.168.64.{i}', self.PORT)
                     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    client.settimeout(.01)
                     try:
                         client.connect(ADDR)
-                        client.send("client_name".encode(self.FORMAT))
+                        test_string = "test string"
+                        # client.send(test_string.encode(self.FORMAT))
+                        message = test_string.encode(self.FORMAT)
+                        msg_length = len(message)
+                        send_length = str(msg_length).encode(self.FORMAT)
+                        send_length += b' ' * (self.HEADER - len(send_length))
+                        client.send("hello".encode(self.FORMAT))
+                        client.send(send_length)
+                        client.send(message)
                         # client.send("!DISCONNECT".encode(self.FORMAT))
+                    except OSError:
+                        continue
                     except Exception as e:
                         Logger.log("SERVER", "ERROR", f"An error occured while trying to broadcast to IP:192.168.64.{i} nested exception is {e}")
-                    finally:
-                        continue
-            time.sleep(10)
+            time.sleep(1)
 
     def send_message(self):
         server = socket.socket()
