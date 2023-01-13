@@ -12,6 +12,7 @@ class Server:
         #     self.IP_ADDR = socket.gethostbyname(socket.gethostname())
         # else:
         #     self.IP_ADDR = '192.168.64.1'
+        self.IP_ADDR = ''
         self.PORT = 5050
         self.HEADER = 64
         self.FORMAT = 'utf-8'
@@ -68,9 +69,9 @@ class Server:
                     try:
                         client.connect(ADDR)
                         client.send("client_name".encode(self.FORMAT))
-                        client.send("!DISCONNECT".encode(self.FORMAT))
+                        # client.send("!DISCONNECT".encode(self.FORMAT))
                     except Exception as e:
-                        Logger.log("SERVER", "ERROR", f"An error occured while trying to broadcast nested exception is {e}")
+                        Logger.log("SERVER", "ERROR", f"An error occured while trying to broadcast to IP:192.168.64.{i} nested exception is {e}")
                     finally:
                         continue
             time.sleep(10)
