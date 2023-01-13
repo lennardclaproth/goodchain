@@ -30,10 +30,13 @@ class Server:
             try:
                 Logger.log("SERVER", "ASSIGN ADDRESS", f"Trying to bind ip 192.168.64.{i}")
                 self.SERVER_INSTANCE.bind((f'192.168.64.{i}',self.PORT))
+                self.IP_ADDR = f'192.168.64.{i}'
                 break
+            except OSError:
+                continue
             except Exception as e:
                 Logger.log("SERVER", "ERROR", f"An error occured while starting the server nested exception is{e}")
-                continue
+        
 
     def server_start(self):
         # TODO: check if discoverable ip already in connected ip's
