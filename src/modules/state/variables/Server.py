@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from modules.state.variables.Variable import Variable
-from modules.server.Server import Server
+from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
 
 @dataclass
-class Server (Variable):
-    value: Server | None = None
+class ServerConnection (Variable):
+    value: ServerConnection | None = None
 
     def get_value(self):
         return super().get_value()

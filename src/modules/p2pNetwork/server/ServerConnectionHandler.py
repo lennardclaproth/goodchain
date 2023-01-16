@@ -2,16 +2,11 @@ import select
 import socket
 import threading
 import time
-from modules.logging.Logger import Logger
+from modules.p2pNetwork.Logging import Logger
 
-class Server:
+class ServerConnection:
 
     def __init__(self):
-        # Logger.log("SERVER","IP ALLOCATION",f"{socket.gethostbyname(socket.gethostname())}")
-        # if str(socket.gethostbyname(socket.gethostname())).__contains__('192.168.64') is True:
-        #     self.IP_ADDR = socket.gethostbyname(socket.gethostname())
-        # else:
-        #     self.IP_ADDR = '192.168.64.1'
         self.IP_ADDR = ''
         self.PORT = 5050
         self.HEADER = 64

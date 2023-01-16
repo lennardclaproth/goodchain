@@ -3,12 +3,13 @@ import curses
 import State
 from DiContainer import DiContainer
 from modules.db.context import DbContext
-from modules.logging.Logger import Logger
+from modules.p2pNetwork.Logging import Logger
+from modules.p2pNetwork.client.ClientConnectionHandler import ClientConnection
+from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
 from modules.user.context import UserContext
 from modules.blockchain.ChainHandler import ChainHandler
 from modules.view.RenderEngine import Loader as RenderEngine
-from modules.server.Server import Server
-from modules.client.ClientHandler import Client
+
 class Startup:
 
     @staticmethod
@@ -18,8 +19,8 @@ class Startup:
         Startup.initialize_di_container(di_container, stdscr)
         Startup.validate_blockchain()
         Logger.load_logs()
-        State.instance(Server).set_value(Server())
-        State.instance(Client).set_value(Client())
+        State.instance(ServerConnection).set_value(ServerConnection())
+        State.instance(ClientConnection).set_value(ClientConnection())
 
     def initialize_curses(stdscr):
         curses.curs_set(0)

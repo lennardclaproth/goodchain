@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from modules.state.variables.Variable import Variable
-from modules.client.ClientHandler import Client
+from modules.p2pNetwork.client.ClientConnectionHandler import ClientConnection
 
 @dataclass
-class Client (Variable):
-    value: Client | None = None
+class ClientConnection (Variable):
+    value: ClientConnection | None = None
 
     def get_value(self):
         return super().get_value()
