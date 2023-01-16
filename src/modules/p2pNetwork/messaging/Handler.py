@@ -26,10 +26,9 @@ class ServerMessageHandler (MessageHandler):
         self.conn.send(message)
 
     def receive(self):
-        msg_length = self.conn.recv(self.HEADER).decode(self.FORMAT)
-        if msg_length:
+        # if msg_length:
             # msg_length = int(msg_length)
-            msg = self.conn.recv(int(msg_length)).decode(self.FORMAT)
+            msg = self.conn.recv(2048).decode(self.FORMAT)
             if msg == "!DISCONNECT":
                 connected = False
             Logger.log("SERVER","CLIENT MESSAGE",f"{self.conn.getpeername()} >> {msg}")
@@ -53,13 +52,13 @@ class ClientMessageHandler (MessageHandler):
         self.conn.send(message)
 
     def receive(self):
-        msg_length = self.conn.recv(self.HEADER).decode(self.FORMAT)
-        if msg_length:
+        # msg_length = self.conn.recv(self.HEADER).decode(self.FORMAT)
+        # if msg_length:
             # msg_length = int(msg_length)
-            msg = self.conn.recv(msg_length).decode(self.FORMAT)
-            if msg == "!DISCONNECT":
-                connected = False
-            Logger.log("SERVER","CLIENT MESSAGE",f"{self.conn.getpeername()} >> {msg}")
-            return_message = f'Server received your message: "{msg}"'
-            # self.conn.send(return_message.encode(self.FORMAT))
-            self.send(return_message)
+        msg = self.conn.recv(2048).decode(self.FORMAT)
+        if msg == "!DISCONNECT":
+            connected = False
+        Logger.log("SERVER","CLIENT MESSAGE",f"{self.conn.getpeername()} >> {msg}")
+        return_message = f'Server received your message: "{msg}"'
+        # self.conn.send(return_message.encode(self.FORMAT))
+        self.send(return_message)
