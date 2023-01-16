@@ -79,7 +79,7 @@ class Server:
                         continue
                     except Exception as e:
                         Logger.log("SERVER", "ERROR", f"An error occured while trying to broadcast to IP:192.168.64.{i} nested exception is {e}")
-            time.sleep(2)
+            time.sleep(10)
 
     def send(self, client, msg):
         message = msg.encode(self.FORMAT)
@@ -88,7 +88,6 @@ class Server:
         send_length += b' ' * (self.HEADER - len(send_length))
         client.send(send_length)
         client.send(message)
-        print(client.recv(2048).decode(self.FORMAT))
         
     def client_connection(self, conn, addr):
         # client_name = conn.recv(2048).decode(self.FORMAT)
