@@ -89,6 +89,7 @@ class Server:
                         continue
                     except Exception as e:
                         Logger.log("SERVER", "ERROR", f"An error occured while trying to broadcast to IP:192.168.64.{i} nested exception is {e}")
+            time.sleep(2)
 
     def send_message(self):
         server = socket.socket()
