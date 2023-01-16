@@ -69,15 +69,19 @@ class Server:
                     client.settimeout(.01)
                     try:
                         client.connect(ADDR)
-                        test_string = "test string"
+                        Logger.log("CLIENT","CONNECTED MESSAGE", f"connected to: {ADDR}, message from server: {client.recv(2048).decode(self.FORMAT)}")
+                        connected = True
+                        while connected:
+
+                            test_string = "test string"
                         # client.send(test_string.encode(self.FORMAT))
-                        message = test_string.encode(self.FORMAT)
-                        msg_length = len(message)
-                        send_length = str(msg_length).encode(self.FORMAT)
-                        send_length += b' ' * (self.HEADER - len(send_length))
+                            message = test_string.encode(self.FORMAT)
+                            msg_length = len(message)
+                            send_length = str(msg_length).encode(self.FORMAT)
+                            send_length += b' ' * (self.HEADER - len(send_length))
                         # client.send("hello".encode(self.FORMAT))
-                        client.send(send_length)
-                        client.send(message)
+                            client.send(send_length)
+                            client.send(message)
                         # client.send("!DISCONNECT".encode(self.FORMAT))
                     except OSError:
                         continue
@@ -93,9 +97,9 @@ class Server:
         connected = True
         while connected:
             ready_to_read, ready_to_write, in_error = select.select([conn],[conn],[conn],2000)
-            # if(len(ready_to_write)):
-                # connection_message = f"...\nHi {client_name}! \nYou are successfully connected to the server {(self.IP_ADDR,self.PORT)}"
-                # conn.send(connection_message.encode(self.FORMAT))
+            if(len(ready_to_write)):
+                connection_message = f"...\nHi! \nYou are successfully connected to the server {(self.IP_ADDR,self.PORT)}"
+                conn.send(connection_message.encode(self.FORMAT))
             if(len(ready_to_read)):
                 try:
                     msg_length = conn.recv(self.HEADER).decode(self.FORMAT)
