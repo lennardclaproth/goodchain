@@ -1,9 +1,7 @@
 import select
 import socket
 import threading
-import time
 from modules.p2pNetwork.Logging import Logger
-from modules.p2pNetwork.messaging.Handler import ServerMessageHandler
 
 class ServerConnection:
 
@@ -53,6 +51,7 @@ class ServerConnection:
     def client_connection(self, conn, addr):
         Logger.log("SERVER", "CLIENT CONNECT", f"{addr} >> client connected.")
         connected = True
+        from modules.p2pNetwork.messaging.Handler import ServerMessageHandler
         messageHandler = ServerMessageHandler(conn)
         while connected:
             ready_to_read, ready_to_write, in_error = select.select([conn],[conn],[conn],2000)
