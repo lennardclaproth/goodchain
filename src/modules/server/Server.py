@@ -21,8 +21,8 @@ class Server:
             self.allocate_ip()
             server_thread = threading.Thread(target=self.server_start, args=())
             server_thread.start()
-            broadcast_thread = threading.Thread(target=self.broadcast, args=())
-            broadcast_thread.start()
+            # broadcast_thread = threading.Thread(target=self.broadcast, args=())
+            # broadcast_thread.start()
         except Exception as e:
             Logger.log("SERVER", "ERROR", f"An error occured while starting the server nested exception is{e}")
 
@@ -72,6 +72,7 @@ class Server:
                         Logger.log("CLIENT","CONNECTED MESSAGE", f"connected to: {ADDR}, message from server: {client.recv(2048).decode(self.FORMAT)}")
                         connected = True
                         while connected:
+                            ready_to_write, ready_to_read, on_error = select.select([client],[client],[client])
                             self.send(client, "test string")
                             self.send(client, "!DISCONNECT")
                             connected = False
