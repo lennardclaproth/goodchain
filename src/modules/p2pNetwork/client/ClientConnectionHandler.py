@@ -49,4 +49,4 @@ class ClientConnection:
         except OSError:
             return
         except Exception as e:
-            Logger.log("SERVER", "ERROR", f"An error occured while trying to broadcast to IP:192.168.64.{i} nested exception is {e}")
+            Logger.log("SERVER", "ERROR", f"An error occured while trying to broadcast to IP:192.168.64.{ip} nested exception is {e}")
