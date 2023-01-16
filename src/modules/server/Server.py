@@ -75,6 +75,7 @@ class Server:
                             self.send(client, "test string")
                             self.send(client, "!DISCONNECT")
                             connected = False
+                        client.close()
                     except OSError:
                         continue
                     except Exception as e:
