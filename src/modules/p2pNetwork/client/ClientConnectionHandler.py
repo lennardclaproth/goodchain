@@ -3,7 +3,7 @@ import socket
 import threading
 import time
 import State
-from modules.p2pNetwork.messaging.Handler import MessageHandler
+from modules.p2pNetwork.messaging.Handler import ClientMessageHandler, MessageHandler
 from modules.p2pNetwork.Logging import Logger
 from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
 class ClientConnection:
@@ -30,22 +30,25 @@ class ClientConnection:
             time.sleep(10)
             
     def connect(self, ip):
-        client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client.settimeout(2)
+        conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        conn.settimeout(2)
         ADDR = (f'192.168.64.{ip}', self.SERVER_PORT)
         try:
-            client.connect(ADDR)
+            conn.connect(ADDR)
             # Logger.log("CLIENT","CONNECTED MESSAGE", f"connected to: {ADDR}, message from server: {client.recv(2048).decode(self.FORMAT)}")
             # TODO: connect should be as follow -> connect -> connection accepted server -> send message -> message received -> disconnect
             connected = True
+            messageHandler = ClientMessageHandler(conn)
             while connected:
-                ready_to_read, ready_to_write, on_error = select.select([client],[client],[client])
+                ready_to_read, ready_to_write, on_error = select.select([conn],[conn],[conn])
                 if ready_to_read:
-                    message = MessageHandler.receive('Client',client)
+                    # message = MessageHandler.receive('Client',client)
+                    messageHandler.receive()
                 if ready_to_write:
-                    MessageHandler.send('Client', client, "test string")
+                    messageHandler.send("test string")
+
                 time.sleep(10)
-            client.close()
+            conn.close()
         except OSError:
             return
         except Exception as e:
