@@ -19,9 +19,9 @@ class ServerMessageHandler (MessageHandler):
     def send(self, msg):
         server_instance = State.instance(ServerConnection).get_value()
         message = msg.encode(self.FORMAT)
-        msg_length = len(message)
-        send_length = str(msg_length).encode(self.FORMAT)
-        send_length += b' ' * (self.HEADER - len(send_length))
+        # msg_length = len(message)
+        # send_length = str(msg_length).encode(self.FORMAT)
+        # send_length += b' ' * (self.HEADER - len(send_length))
         # self.conn.send(send_length)
         self.conn.send(message)
 
