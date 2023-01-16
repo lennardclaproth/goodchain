@@ -41,7 +41,7 @@ class ClientConnection:
             while connected:
                 ready_to_read, ready_to_write, on_error = select.select([client],[client],[client])
                 if ready_to_read:
-                    MessageHandler.receive('Client',client)
+                    message = MessageHandler.receive('Client',client)
                 if ready_to_write:
                     MessageHandler.send('Client', client, "test string")
                 time.sleep(10)
