@@ -37,7 +37,7 @@ class ServerMessageHandler (MessageHandler):
         return_message = f'Server received your message: "{msg}"'
         Logger.log("SERVER","RECEIVED MESSAGE", f"message received '{msg}'")
         # self.send(return_message)
-        self.conn.send(return_message.encode(self.FORMAT))
+        # self.conn.send(return_message.encode(self.FORMAT))
 
 class ClientMessageHandler (MessageHandler):
 
@@ -62,4 +62,4 @@ class ClientMessageHandler (MessageHandler):
         return_message = f'Client received message'
         Logger.log("CLIENT","RECEIVED MESSAGE", f"message received '{msg}'")
         # self.conn.send(return_message.encode(self.FORMAT))
-        self.conn.send(return_message.encode(self.FORMAT))
+        # self.conn.send(return_message.encode(self.fo))
