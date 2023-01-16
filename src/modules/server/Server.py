@@ -82,6 +82,8 @@ class Server:
                         # client.send("hello".encode(self.FORMAT))
                             client.send(send_length)
                             client.send(message)
+                            client.send()
+                            connected = False
                         # client.send("!DISCONNECT".encode(self.FORMAT))
                     except OSError:
                         continue
@@ -98,7 +100,7 @@ class Server:
         while connected:
             ready_to_read, ready_to_write, in_error = select.select([conn],[conn],[conn],2000)
             if(len(ready_to_write)):
-                connection_message = f"...\nHi! \nYou are successfully connected to the server {(self.IP_ADDR,self.PORT)}"
+                connection_message = f"You are successfully connected to the server {(self.IP_ADDR,self.PORT)}"
                 conn.send(connection_message.encode(self.FORMAT))
             if(len(ready_to_read)):
                 try:
