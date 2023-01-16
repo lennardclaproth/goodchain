@@ -82,7 +82,7 @@ class Server:
                         # client.send("hello".encode(self.FORMAT))
                             client.send(send_length)
                             client.send(message)
-                            client.send()
+                            client.send("!DISCONNECT")
                             connected = False
                         # client.send("!DISCONNECT".encode(self.FORMAT))
                     except OSError:
