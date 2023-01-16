@@ -72,27 +72,23 @@ class Server:
                         Logger.log("CLIENT","CONNECTED MESSAGE", f"connected to: {ADDR}, message from server: {client.recv(2048).decode(self.FORMAT)}")
                         connected = True
                         while connected:
-
-                            test_string = "test string"
-                        # client.send(test_string.encode(self.FORMAT))
-                            message = test_string.encode(self.FORMAT)
-                            msg_length = len(message)
-                            send_length = str(msg_length).encode(self.FORMAT)
-                            send_length += b' ' * (self.HEADER - len(send_length))
-                        # client.send("hello".encode(self.FORMAT))
-                            client.send(send_length)
-                            client.send(message)
-                            client.send("!DISCONNECT".encode(self.FORMAT))
+                            self.send(client, "test string")
+                            self.send(client, "!DISCONNECT")
                             connected = False
-                        # client.send("!DISCONNECT".encode(self.FORMAT))
                     except OSError:
                         continue
                     except Exception as e:
                         Logger.log("SERVER", "ERROR", f"An error occured while trying to broadcast to IP:192.168.64.{i} nested exception is {e}")
             time.sleep(2)
 
-    def send_message(self):
-        server = socket.socket()
+    def send(self, client, msg):
+        message = msg.encode(self.FORMAT)
+        msg_length = len(message)
+        send_length = str(msg_length).encode(self.FORMAT)
+        send_length += b' ' * (self.HEADER - len(send_length))
+        client.send(send_length)
+        client.send(message)
+        print(client.recv(2048).decode(self.FORMAT))
         
     def client_connection(self, conn, addr):
         # client_name = conn.recv(2048).decode(self.FORMAT)
