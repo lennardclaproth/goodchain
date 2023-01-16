@@ -97,9 +97,9 @@ class Server:
         connected = True
         while connected:
             ready_to_read, ready_to_write, in_error = select.select([conn],[conn],[conn],2000)
-            if(len(ready_to_write)):
-                connection_message = f"You are successfully connected to the server {(self.IP_ADDR,self.PORT)}"
-                conn.send(connection_message.encode(self.FORMAT))
+            # if(len(ready_to_write)):
+            #     connection_message = f"You are successfully connected to the server {(self.IP_ADDR,self.PORT)}"
+            #     conn.send(connection_message.encode(self.FORMAT))
             if(len(ready_to_read)):
                 try:
                     msg_length = conn.recv(self.HEADER).decode(self.FORMAT)

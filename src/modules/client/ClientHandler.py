@@ -34,12 +34,12 @@ class Client:
         ADDR = (f'192.168.64.{ip}', self.SERVER_PORT)
         try:
             client.connect(ADDR)
-            Logger.log("CLIENT","CONNECTED MESSAGE", f"connected to: {ADDR}, message from server: {client.recv(2048).decode(self.FORMAT)}")
+            # Logger.log("CLIENT","CONNECTED MESSAGE", f"connected to: {ADDR}, message from server: {client.recv(2048).decode(self.FORMAT)}")
             # connected = True
             # while connected:
                 # ready_to_write, ready_to_read, on_error = select.select([client],[client],[client])
             self.send(client, "test string")
-            self.send(client, "!DISCONNECT")
+            # self.send(client, "!DISCONNECT")
                 # connected = False
             client.close()
         except OSError:
