@@ -39,14 +39,6 @@ class ServerConnection:
             conn, addr = self.SERVER_INSTANCE.accept()
             thread = threading.Thread(target=self.client_connection, args=(conn, addr))
             thread.start()
-
-    # def send(self, client, msg):
-    #     message = msg.encode(self.FORMAT)
-    #     msg_length = len(message)
-    #     send_length = str(msg_length).encode(self.FORMAT)
-    #     send_length += b' ' * (self.HEADER - len(send_length))
-    #     client.send(send_length)
-    #     client.send(message)
         
     def client_connection(self, conn, addr):
         from modules.p2pNetwork.messaging.Handler import ServerMessageHandler

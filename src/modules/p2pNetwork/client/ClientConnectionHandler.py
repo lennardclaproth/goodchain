@@ -35,14 +35,12 @@ class ClientConnection:
         ADDR = (f'192.168.64.{ip}', self.SERVER_PORT)
         try:
             conn.connect(ADDR)
-            # Logger.log("CLIENT","CONNECTED MESSAGE", f"connected to: {ADDR}, message from server: {client.recv(2048).decode(self.FORMAT)}")
             # TODO: connect should be as follow -> connect -> connection accepted server -> send message -> message received -> disconnect
             connected = True
             messageHandler = ClientMessageHandler(conn)
             while connected:
                 ready_to_read, ready_to_write, on_error = select.select([conn],[conn],[conn])
                 if ready_to_read:
-                    # message = MessageHandler.receive('Client',client)
                     messageHandler.receive()
                 if ready_to_write:
                     messageHandler.send("test string")

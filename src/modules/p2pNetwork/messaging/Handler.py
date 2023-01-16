@@ -28,13 +28,14 @@ class ServerMessageHandler (MessageHandler):
     def receive(self):
         msg_length = self.conn.recv(self.HEADER).decode(self.FORMAT)
         if msg_length:
-            msg_length = int(msg_length)
-            msg = self.conn.recv(msg_length).decode(self.FORMAT)
+            # msg_length = int(msg_length)
+            msg = self.conn.recv(int(msg_length)).decode(self.FORMAT)
             if msg == "!DISCONNECT":
                 connected = False
             Logger.log("SERVER","CLIENT MESSAGE",f"{self.conn} >> {msg}")
             return_message = f'Server received your message: "{msg}"'
-            self.conn.send(return_message.encode(self.FORMAT))
+            self.send(return_message)
+            # self.conn.send(return_message.encode(self.FORMAT))
 
 class ClientMessageHandler (MessageHandler):
 
@@ -54,10 +55,11 @@ class ClientMessageHandler (MessageHandler):
     def receive(self):
         msg_length = self.conn.recv(self.HEADER).decode(self.FORMAT)
         if msg_length:
-            msg_length = int(msg_length)
+            # msg_length = int(msg_length)
             msg = self.conn.recv(msg_length).decode(self.FORMAT)
             if msg == "!DISCONNECT":
                 connected = False
             Logger.log("SERVER","CLIENT MESSAGE",f"{self.conn} >> {msg}")
             return_message = f'Server received your message: "{msg}"'
-            self.conn.send(return_message.encode(self.FORMAT))
+            # self.conn.send(return_message.encode(self.FORMAT))
+            self.send(return_message)
