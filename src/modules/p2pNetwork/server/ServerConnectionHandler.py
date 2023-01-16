@@ -60,23 +60,9 @@ class ServerConnection:
                     messageHandler.receive()
                 except Exception as e:
                     raise e
-                # try:
-                #     msg_length = conn.recv(self.HEADER).decode(self.FORMAT)
-                #     if msg_length:
-                #         msg_length = int(msg_length)
-                #         msg = conn.recv(msg_length).decode(self.FORMAT)
-                #         if msg == "!DISCONNECT":
-                #             connected = False
-
-                #         Logger.log("SERVER","CLIENT MESSAGE",f"{addr} >> {msg}")
-                #         return_message = f'Server received your message: "{msg}"'
-                #         conn.send(return_message.encode(self.FORMAT))
-                #     else:
-                #         connected = False
-                #         # Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> message empty.")
-                except ConnectionResetError:
-                    connected = False
-                    Logger.log("SERVER ERROR", "CLIENT DISCONNECT", f"{addr} >> connection reset by peer.")
+            # except ConnectionResetError:
+            #     connected = False
+            #     Logger.log("SERVER ERROR", "CLIENT DISCONNECT", f"{addr} >> connection reset by peer.")
             # TODO disconnect
         Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> client disconnected.")
         conn.close()
