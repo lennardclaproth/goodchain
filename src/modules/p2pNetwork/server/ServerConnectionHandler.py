@@ -49,9 +49,9 @@ class ServerConnection:
     #     client.send(message)
         
     def client_connection(self, conn, addr):
+        from modules.p2pNetwork.messaging.Handler import ServerMessageHandler
         Logger.log("SERVER", "CLIENT CONNECT", f"{addr} >> client connected.")
         connected = True
-        from modules.p2pNetwork.messaging.Handler import ServerMessageHandler
         messageHandler = ServerMessageHandler(conn)
         while connected:
             ready_to_read, ready_to_write, in_error = select.select([conn],[conn],[conn],2000)
@@ -59,22 +59,29 @@ class ServerConnection:
             #     connection_message = f"You are successfully connected to the server {(self.IP_ADDR,self.PORT)}"
             #     conn.send(connection_message.encode(self.FORMAT))
             if (len(ready_to_write)):
-                messageHandler.send("test from server")
+                try:
+                    messageHandler.send("test from server")
+                except Exception as e:
+                    raise e
             if(len(ready_to_read)):
                 try:
-                    msg_length = conn.recv(self.HEADER).decode(self.FORMAT)
-                    if msg_length:
-                        msg_length = int(msg_length)
-                        msg = conn.recv(msg_length).decode(self.FORMAT)
-                        if msg == "!DISCONNECT":
-                            connected = False
+                    messageHandler.receive()
+                except Exception as e:
+                    raise e
+                # try:
+                #     msg_length = conn.recv(self.HEADER).decode(self.FORMAT)
+                #     if msg_length:
+                #         msg_length = int(msg_length)
+                #         msg = conn.recv(msg_length).decode(self.FORMAT)
+                #         if msg == "!DISCONNECT":
+                #             connected = False
 
-                        Logger.log("SERVER","CLIENT MESSAGE",f"{addr} >> {msg}")
-                        return_message = f'Server received your message: "{msg}"'
-                        conn.send(return_message.encode(self.FORMAT))
-                    else:
-                        connected = False
-                        # Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> message empty.")
+                #         Logger.log("SERVER","CLIENT MESSAGE",f"{addr} >> {msg}")
+                #         return_message = f'Server received your message: "{msg}"'
+                #         conn.send(return_message.encode(self.FORMAT))
+                #     else:
+                #         connected = False
+                #         # Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> message empty.")
                 except ConnectionResetError:
                     connected = False
                     Logger.log("SERVER ERROR", "CLIENT DISCONNECT", f"{addr} >> connection reset by peer.")
