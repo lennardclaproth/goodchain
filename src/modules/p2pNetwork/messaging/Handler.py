@@ -15,6 +15,7 @@ class ServerMessageHandler (MessageHandler):
     def __init__(self, conn):
         super().__init__(conn)
         self.close_connection_msg = "CLOSE CONNECTION"
+        self.message_queue = []
         
     def send(self, msg):
         # server_instance = State.instance(ServerConnection).get_value()
@@ -23,6 +24,7 @@ class ServerMessageHandler (MessageHandler):
         # send_length = str(msg_length).encode(self.FORMAT)
         # send_length += b' ' * (self.HEADER - len(send_length))
         # self.conn.send(send_length)
+        
         Logger.log("SERVER","SEND MESSAGE", f"message sent '{msg}'")
         self.conn.send(message)
 
@@ -34,8 +36,8 @@ class ServerMessageHandler (MessageHandler):
             connected = False
         return_message = f'Server received your message: "{msg}"'
         Logger.log("SERVER","RECEIVED MESSAGE", f"message received '{msg}'")
-        self.send(return_message)
-            # self.conn.send(return_message.encode(self.FORMAT))
+        # self.send(return_message)
+        self.conn.send(return_message.encode(self.FORMAT))
 
 class ClientMessageHandler (MessageHandler):
 
@@ -44,7 +46,6 @@ class ClientMessageHandler (MessageHandler):
         self.close_connection_msg = "CLOSE CONNECTION"
         
     def send(self, msg):
-        server_instance = State.instance(ServerConnection).get_value()
         message = msg.encode(self.FORMAT)
         # msg_length = len(message)
         # send_length = str(msg_length).encode(self.FORMAT)
@@ -58,9 +59,7 @@ class ClientMessageHandler (MessageHandler):
         # if msg_length:
             # msg_length = int(msg_length)
         msg = self.conn.recv(2048).decode(self.FORMAT)
-        if msg == "!DISCONNECT":
-            connected = False
         return_message = f'Client received message'
         Logger.log("CLIENT","RECEIVED MESSAGE", f"message received '{msg}'")
         # self.conn.send(return_message.encode(self.FORMAT))
-        self.send(return_message)
+        self.conn.send(return_message.encode(self.FORMAT))
