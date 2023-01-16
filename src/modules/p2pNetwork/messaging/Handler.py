@@ -13,15 +13,15 @@ class MessageHandler:
 class ServerMessageHandler (MessageHandler):
 
     def __init__(self, conn):
-        super.__init__(self, conn)
+        super().__init__(conn)
         self.close_connection_msg = "CLOSE CONNECTION"
         
     def send(self, msg):
         server_instance = State.instance(ServerConnection).get_value()
-        message = msg.encode(server_instance.FORMAT)
+        message = msg.encode(self.FORMAT)
         msg_length = len(message)
-        send_length = str(msg_length).encode(server_instance.FORMAT)
-        send_length += b' ' * (server_instance.HEADER - len(send_length))
+        send_length = str(msg_length).encode(self.FORMAT)
+        send_length += b' ' * (self.HEADER - len(send_length))
         self.conn.send(send_length)
         self.conn.send(message)
 
@@ -32,7 +32,6 @@ class ServerMessageHandler (MessageHandler):
             msg = self.conn.recv(msg_length).decode(self.FORMAT)
             if msg == "!DISCONNECT":
                 connected = False
-
-            Logger.log("SERVER","CLIENT MESSAGE",f"{addr} >> {msg}")
+            Logger.log("SERVER","CLIENT MESSAGE",f"{self.conn} >> {msg}")
             return_message = f'Server received your message: "{msg}"'
             self.conn.send(return_message.encode(self.FORMAT))
