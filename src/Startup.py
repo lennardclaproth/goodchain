@@ -8,7 +8,7 @@ from modules.user.context import UserContext
 from modules.blockchain.ChainHandler import ChainHandler
 from modules.view.RenderEngine import Loader as RenderEngine
 from modules.server.Server import Server
-from modules.client.Client import Client
+from modules.client.ClientHandler import Client
 class Startup:
 
     @staticmethod

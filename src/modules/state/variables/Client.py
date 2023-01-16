@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from modules.state.variables.Variable import Variable
-from modules.client.Client import Client
+from modules.client.ClientHandler import Client
 
 @dataclass
 class Client (Variable):
