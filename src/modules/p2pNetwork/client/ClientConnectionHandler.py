@@ -42,7 +42,7 @@ class ClientConnection:
                 if ready_to_read:
                     messageHandler.receive()
                 if ready_to_write:
-                    messageHandler.send()
+                    messageHandler.send('test')
                 time.sleep(10)
             conn.close()
         except OSError:
