@@ -22,9 +22,9 @@ class MessageHandler:
         Logger.log(self.type, "SEND MESSAGE", f"message @{self.conn.getpeername()}: '{msg}'")
         self.conn.send(message)
 
-    def receive(self, msg):
+    def receive(self):
         msg = self.conn.recv(2048).decode(self.FORMAT)
-        return_message = f'Server received your message: "{msg}"'
+        # return_message = f'Server received your message: "{msg}"'
         Logger.log(self.type, "RECEIVED MESSAGE", f"message @{self.conn.getpeername()}: '{msg}'")
         # self.message_queue.append(return_message)s
 
