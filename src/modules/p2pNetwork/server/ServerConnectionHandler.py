@@ -2,6 +2,7 @@ import select
 import socket
 import threading
 from modules.p2pNetwork.Logging import Logger
+# from modules.p2pNetwork.messaging.Handler import MessageHandler
 
 class ServerConnection:
 
@@ -41,29 +42,18 @@ class ServerConnection:
             thread.start()
         
     def client_connection(self, conn, addr):
-        from modules.p2pNetwork.messaging.Handler import ServerMessageHandler
-        Logger.log("SERVER", "CLIENT CONNECT", f"{addr} >> client connected.")
+        from modules.p2pNetwork.messaging.Handler import MessageHandler
+        # Logger.log("SERVER", "CLIENT CONNECT", f"{addr} >> client connected.")
         connected = True
-        messageHandler = ServerMessageHandler(conn)
+        messageHandler = MessageHandler(conn, "SERVER","CONNECT")
         while connected:
             ready_to_read, ready_to_write, in_error = select.select([conn],[conn],[conn],2000)
-            # if(len(ready_to_write)):
-            #     connection_message = f"You are successfully connected to the server {(self.IP_ADDR,self.PORT)}"
-            #     conn.send(connection_message.encode(self.FORMAT))
-            if (len(ready_to_write)):
-                try:
-                    messageHandler.send("test from server")
-                except Exception as e:
-                    raise e
-            if(len(ready_to_read)):
+            if (len(ready_to_read)):
                 try:
                     messageHandler.receive()
+                    messageHandler.send("test")
                 except Exception as e:
                     raise e
-            # except ConnectionResetError:
-            #     connected = False
-            #     Logger.log("SERVER ERROR", "CLIENT DISCONNECT", f"{addr} >> connection reset by peer.")
-            # TODO disconnect
         Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> client disconnected.")
         conn.close()
         

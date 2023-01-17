@@ -25,7 +25,7 @@ class TransactionAction(IAction):
         try:
             self.page.reqd = self.page.reqd.split(b',')
             length = len(self.page.reqd)
-            # TODO: fix bug
+            # TODO: fix bug [OPTIONAL]
             if length > 1:
                 for reqd in self.page.reqd:
                     reqd_u = user_context.find_user(reqd)

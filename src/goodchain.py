@@ -6,10 +6,6 @@ from modules.view.pages.ErrorPage import ErrorPage
 from modules.view.pages.MainMenu import MainMenu
 from modules.state.variables.Error import Error
 
-# TODO: startup start server create IP table poll hosts/servers and establish connections
-# TODO: should start client, client should connect with server after server started
-# TODO: should run on different threads
-
 def main(stdscr):
     di_container = DiContainer()
     Startup.run(di_container,stdscr)

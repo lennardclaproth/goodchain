@@ -3,7 +3,7 @@ import socket
 import threading
 import time
 import State
-from modules.p2pNetwork.messaging.Handler import ClientMessageHandler, MessageHandler
+from modules.p2pNetwork.messaging.Handler import MessageHandler
 from modules.p2pNetwork.Logging import Logger
 from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
 class ClientConnection:
@@ -35,16 +35,14 @@ class ClientConnection:
         ADDR = (f'192.168.64.{ip}', self.SERVER_PORT)
         try:
             conn.connect(ADDR)
-            # TODO: connect should be as follow -> connect -> connection accepted server -> send message -> message received -> disconnect
             connected = True
-            messageHandler = ClientMessageHandler(conn)
+            messageHandler = MessageHandler(conn, "CLIENT", "CONNECT")
             while connected:
                 ready_to_read, ready_to_write, on_error = select.select([conn],[conn],[conn])
                 if ready_to_read:
                     messageHandler.receive()
                 if ready_to_write:
-                    messageHandler.send("test string")
-
+                    messageHandler.send()
                 time.sleep(10)
             conn.close()
         except OSError:
