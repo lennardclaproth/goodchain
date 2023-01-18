@@ -8,7 +8,7 @@ from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
 class MessageHandler:
     def __init__(self, conn, type, initial_state):
         client = ["CONNECT", "ACTION", "DISCONNECT"]
-        server = ["ACCEPT", "RECEIVED"]
+        server = ["ACCEPT", "RECEIVED",""]
         self.connected = True
         if type == "SERVER":
             self.message_flow_receive = client
