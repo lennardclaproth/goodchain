@@ -23,7 +23,7 @@ class ClientConnection:
     def broadcast(self):
         queue : MessageQueue = State.instance(MessageQueue).get_value()
         while True:
-            if queue is not None:
+            if queue is None:
                 continue
             task : Task = queue.peek()
             if task is None:
