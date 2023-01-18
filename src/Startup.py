@@ -20,9 +20,9 @@ class Startup:
         Startup.initialize_di_container(di_container, stdscr)
         Startup.validate_blockchain()
         Logger.load_logs()
-        State.instance(MessageQueue).set_value(MessageQueue())
         State.instance(ServerConnection).set_value(ServerConnection())
         State.instance(ClientConnection).set_value(ClientConnection())
+        State.instance(MessageQueue).set_value(MessageQueue())
 
     def initialize_curses(stdscr):
         curses.curs_set(0)
