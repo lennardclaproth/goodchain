@@ -27,7 +27,7 @@ class ClientConnection:
                 if i is not int(own_ip):
                     connect_thread = threading.Thread(target=self.connect, args=(i,))
                     connect_thread.start()
-            time.sleep(20)
+            time.sleep(5)
             
     def connect(self, ip):
         conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
