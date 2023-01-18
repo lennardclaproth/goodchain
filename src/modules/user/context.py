@@ -26,7 +26,7 @@ class UserContext:
         user = self.cursor.execute("INSERT INTO users (username,password,private_key,public_key) VALUES (?,?,?,?);", (str(
             username, 'utf-8'), password_hashed, private_key, public_key))
         self.db_context.connection.commit()
-        task = Task(("CLIENT","USER_CREATE"), user)
+        task = Task(("CLIENT","USER_CREATE"), self.find_user(username))
         queue : MessageQueue = State.instance(MessageQueue).get_value()
         queue.lock()
         queue.enqueue(task)

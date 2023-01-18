@@ -29,10 +29,10 @@ class MessageHandler:
     def send(self, task = None):
         # TODO: implement pickle dump
         message = self.message_flow_send[self.message_flow_index]
+        message = message.encode(self.FORMAT)
         Logger.log(self.type, "SEND MESSAGE", f"message @{self.conn.getpeername()}: '{message}'")
         if task is not None:
             message = pickle.dumps(task)
-        message = message.encode(self.FORMAT)
         self.conn.send(message)
         if self.message_flow_receive[self.message_flow_index] == "DISCONNECT":
             self.conn.close()
@@ -42,9 +42,12 @@ class MessageHandler:
     def receive(self):
         # TODO implement task handler
         # TODO: implement pickle load object on index ...
-        msg = self.conn.recv(2048).decode(self.FORMAT)
+        msg = self.conn.recv(2048)
+        if type(msg) is not bytes:
+            msg = self.conn.recv(2048).decode(self.FORMAT)
         # self.message_flow_index = self.message_flow_receive.index(msg)
         Logger.log(self.type, "RECEIVED MESSAGE", f"message @{self.conn.getpeername()}: '{msg}'")
+
         if msg == "DISCONNECT":
             self.conn.close()
             self.connected = False
