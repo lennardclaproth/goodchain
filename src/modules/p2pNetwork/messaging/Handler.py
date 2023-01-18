@@ -32,6 +32,6 @@ class MessageHandler:
 
     def receive(self):
         msg = self.conn.recv(2048).decode(self.FORMAT)
-        self.message_flow_index = self.message_flow_receive.index(msg)
+        # self.message_flow_index = self.message_flow_receive.index(msg)
         Logger.log(self.type, "RECEIVED MESSAGE", f"message @{self.conn.getpeername()}: '{msg}'")
         self.message_flow_index += 1
