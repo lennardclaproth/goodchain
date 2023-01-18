@@ -30,7 +30,7 @@ class MessageHandler:
         Logger.log(self.type, "SEND MESSAGE", f"message @{self.conn.getpeername()}: '{message}'")
         message = message.encode(self.FORMAT)
         self.conn.send(message)
-        if self.message_flow_send[self.message_flow_index] == "DISCONNECT":
+        if self.message_flow_receive[self.message_flow_index] == "DISCONNECT":
             self.conn.close()
             self.connected = False
 
