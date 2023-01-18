@@ -1,15 +1,12 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from modules.state.variables.Variable import Variable
-
+from modules.p2pNetwork.messaging.MessageQueue import MessageQueue
 @dataclass
-class MessageQueue(Variable):
+class MessageQueue (Variable):
+    value: MessageQueue | None = None
 
-    value: list = field(default_factory=list)
-
-    def get_value(self, shift=0):
-        if shift != 0:
-            return self.value[len(self.value)-1+shift]
-        return self.value[-1]
+    def get_value(self):
+        return super().get_value()
 
     def set_value(self, new_value):
-        self.value.append(new_value)
+        super().set_value(new_value)

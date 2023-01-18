@@ -18,3 +18,4 @@ class TransactionPool(Variable):
             transaction_pool = PoolHandler.load_pool()
             transaction_pool.append(new_value)
             PoolHandler.save_pool(transaction_pool)
+

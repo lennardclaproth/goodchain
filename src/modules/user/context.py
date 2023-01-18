@@ -1,9 +1,12 @@
 from hashlib import sha256
 import sys
+import State
 from modules.db.context import DbContext
 
 from modules.signing.Signature import Signature
 from modules.user.User import User
+
+from modules.p2pNetwork.messaging.MessageQueue import Task, MessageQueue
 
 
 class UserContext:
@@ -23,6 +26,11 @@ class UserContext:
         user = self.cursor.execute("INSERT INTO users (username,password,private_key,public_key) VALUES (?,?,?,?);", (str(
             username, 'utf-8'), password_hashed, private_key, public_key))
         self.db_context.connection.commit()
+        task = Task(("CLIENT","USER_CREATE"), user)
+        queue : MessageQueue = State.instance(MessageQueue).get_value()
+        queue.lock()
+        queue.enqueue(task)
+        queue.release()
         return user
 
     def find_user(self, _username):

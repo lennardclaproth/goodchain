@@ -5,6 +5,7 @@ from DiContainer import DiContainer
 from modules.db.context import DbContext
 from modules.p2pNetwork.Logging import Logger
 from modules.p2pNetwork.client.ClientConnectionHandler import ClientConnection
+from modules.p2pNetwork.messaging.MessageQueue import MessageQueue
 from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
 from modules.user.context import UserContext
 from modules.blockchain.ChainHandler import ChainHandler
@@ -21,6 +22,7 @@ class Startup:
         Logger.load_logs()
         State.instance(ServerConnection).set_value(ServerConnection())
         State.instance(ClientConnection).set_value(ClientConnection())
+        State.instance(MessageQueue).set_value(MessageQueue())
 
     def initialize_curses(stdscr):
         curses.curs_set(0)

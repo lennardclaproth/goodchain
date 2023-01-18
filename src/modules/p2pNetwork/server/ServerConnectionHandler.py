@@ -42,7 +42,7 @@ class ServerConnection:
             thread.start()
         
     def client_connection(self, conn, addr):
-        from modules.p2pNetwork.messaging.Handler import MessageHandler
+        from modules.p2pNetwork.messaging.MessageHandler import MessageHandler
         # Logger.log("SERVER", "CLIENT CONNECT", f"{addr} >> client connected.")
         messageHandler = MessageHandler(conn, "SERVER", "CONNECT")
         while messageHandler.connected:
@@ -54,6 +54,6 @@ class ServerConnection:
                         messageHandler.send()
                 except Exception as e:
                     raise e
-        Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> client disconnected.")
+        # Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> client disconnected.")
         conn.close()
         
