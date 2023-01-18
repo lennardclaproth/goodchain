@@ -33,6 +33,7 @@ class MessageHandler:
         if self.message_flow_receive[self.message_flow_index] == "DISCONNECT":
             self.conn.close()
             self.connected = False
+        self.message_flow_index += 1
 
     def receive(self):
         msg = self.conn.recv(2048).decode(self.FORMAT)
@@ -41,4 +42,4 @@ class MessageHandler:
         if msg == "DISCONNECT":
             self.conn.close()
             self.connected = False
-        self.message_flow_index += 1
+        # self.message_flow_index += 1
