@@ -43,8 +43,8 @@ class ClientConnection:
                     messageHandler.receive()
                 if ready_to_write:
                     messageHandler.send()
-                time.sleep(10)
-            conn.close()
+            time.sleep(10)
+            # conn.close()
         except OSError:
             return
         except Exception as e:
