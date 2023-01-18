@@ -35,14 +35,19 @@ class ClientConnection:
         ADDR = (f'192.168.64.{ip}', self.SERVER_PORT)
         try:
             conn.connect(ADDR)
-            connected = True
+            # connected = True
             messageHandler = MessageHandler(conn, "CLIENT", "CONNECT")
-            while messageHandler.connected:
-                ready_to_read, ready_to_write, on_error = select.select([conn],[conn],[conn])
-                if ready_to_read:
-                    messageHandler.receive()
-                if ready_to_write:
-                    messageHandler.send()
+            messageHandler.send()
+            messageHandler.receive()
+            messageHandler.send()
+            messageHandler.receive()
+            messageHandler.send()
+            # while messageHandler.connected:
+            #     ready_to_read, ready_to_write, on_error = select.select([conn],[conn],[conn])
+            #     if ready_to_read:
+            #         messageHandler.receive()
+            #     if ready_to_write:
+            #         messageHandler.send()
                 # time.sleep(10)
             # conn.close()
         except OSError:
