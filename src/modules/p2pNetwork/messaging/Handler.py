@@ -9,6 +9,7 @@ class MessageHandler:
     def __init__(self, conn, type, initial_state):
         client = ["CONNECT", "ACTION", "DISCONNECT"]
         server = ["ACCEPT", "RECEIVED"]
+        self.connected = True
         if type == "SERVER":
             self.message_flow_receive = client
             self.message_flow_send = server
@@ -29,9 +30,15 @@ class MessageHandler:
         Logger.log(self.type, "SEND MESSAGE", f"message @{self.conn.getpeername()}: '{message}'")
         message = message.encode(self.FORMAT)
         self.conn.send(message)
+        if self.message_flow_send[self.message_flow_index] == "DISCONNECT":
+            self.conn.close()
+            self.connected = False
 
     def receive(self):
         msg = self.conn.recv(2048).decode(self.FORMAT)
         # self.message_flow_index = self.message_flow_receive.index(msg)
         Logger.log(self.type, "RECEIVED MESSAGE", f"message @{self.conn.getpeername()}: '{msg}'")
+        if msg == "DISCONNECT":
+            self.conn.close()
+            self.connected = False
         self.message_flow_index += 1

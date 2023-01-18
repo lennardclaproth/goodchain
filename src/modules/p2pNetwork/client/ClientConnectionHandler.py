@@ -37,7 +37,7 @@ class ClientConnection:
             conn.connect(ADDR)
             connected = True
             messageHandler = MessageHandler(conn, "CLIENT", "CONNECT")
-            while connected:
+            while messageHandler.connected:
                 ready_to_read, ready_to_write, on_error = select.select([conn],[conn],[conn])
                 if ready_to_read:
                     messageHandler.receive()

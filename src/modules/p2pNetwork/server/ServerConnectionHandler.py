@@ -44,9 +44,8 @@ class ServerConnection:
     def client_connection(self, conn, addr):
         from modules.p2pNetwork.messaging.Handler import MessageHandler
         # Logger.log("SERVER", "CLIENT CONNECT", f"{addr} >> client connected.")
-        connected = True
         messageHandler = MessageHandler(conn, "SERVER", "CONNECT")
-        while connected:
+        while messageHandler.connected:
             ready_to_read, ready_to_write, in_error = select.select([conn],[conn],[conn],2000)
             if (len(ready_to_read)):
                 try:
