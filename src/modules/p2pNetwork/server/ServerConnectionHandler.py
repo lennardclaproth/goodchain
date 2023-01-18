@@ -50,7 +50,8 @@ class ServerConnection:
             if (len(ready_to_read)):
                 try:
                     messageHandler.receive()
-                    messageHandler.send()
+                    if messageHandler.connected:
+                        messageHandler.send()
                 except Exception as e:
                     raise e
         Logger.log("SERVER", "CLIENT DISCONNECT", f"{addr} >> client disconnected.")
