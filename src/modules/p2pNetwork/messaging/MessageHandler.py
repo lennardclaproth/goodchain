@@ -1,6 +1,7 @@
 import pickle
 from modules.p2pNetwork.Logging import Logger
 from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
+from modules.p2pNetwork.messaging.MessageQueue import Task
 
 # TODO: change to 1 message handler (divide between SERVER and CLIENT and set initial message state)
 # TODO: implment message_queue in the message handler
@@ -45,9 +46,12 @@ class MessageHandler:
         msg = self.conn.recv(2048)
         if type(msg) is not bytes:
             msg = self.conn.recv(2048).decode(self.FORMAT)
-        # self.message_flow_index = self.message_flow_receive.index(msg)
+            # TODO: implement task handler
+            task : Task = pickle.loads(msg)
+            msg = task.action
         Logger.log(self.type, "RECEIVED MESSAGE", f"message @{self.conn.getpeername()}: '{msg}'")
-
+        # self.message_flow_index = self.message_flow_receive.index(msg)
+        
         if msg == "DISCONNECT":
             self.conn.close()
             self.connected = False
