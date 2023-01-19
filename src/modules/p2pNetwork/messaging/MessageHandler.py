@@ -45,7 +45,7 @@ class MessageHandler:
         # TODO: implement pickle load object on index ...
         msg = self.conn.recv(4096)
         try:
-            msg = self.conn.recv(4096).decode(self.FORMAT)
+            msg = msg.decode(self.FORMAT)
         except Exception as e:
             task : Task = pickle.loads(msg)
             msg = task.action
