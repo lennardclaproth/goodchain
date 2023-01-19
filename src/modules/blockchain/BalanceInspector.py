@@ -2,7 +2,7 @@ import State
 from modules.blockchain.TransactionBlock import TransactionBlock
 from modules.user.User import User
 from modules.user.context import UserContext
-from 
+
 class BalanceInspector:
 
     @staticmethod

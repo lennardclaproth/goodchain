@@ -2,7 +2,8 @@ import pickle
 from modules.p2pNetwork.Logging import Logger
 from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
 from modules.p2pNetwork.messaging.MessageQueue import Task
-
+from modules.user.context import UserContext
+import State
 # TODO: change to 1 message handler (divide between SERVER and CLIENT and set initial message state)
 # TODO: implment message_queue in the message handler
 # TODO: connect should be as follow -> connect -> connection accepted server -> send message -> message received -> disconnect
@@ -49,7 +50,8 @@ class MessageHandler:
         except Exception as e:
             task : Task = pickle.loads(msg)
             msg = task.action
-            
+            user_context : UserContext = State.store.di_container.get_dependency('user_context')
+            user_context.insert_user(task.data)
         Logger.log(self.type, "RECEIVED MESSAGE", f"message @{self.conn.getpeername()}: '{msg}'")
         # self.message_flow_index = self.message_flow_receive.index(msg)
         
