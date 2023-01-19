@@ -43,9 +43,9 @@ class MessageHandler:
     def receive(self):
         # TODO implement task handler
         # TODO: implement pickle load object on index ...
-        msg = self.conn.recv(2048)
+        msg = self.conn.recv(4096)
         if type(msg) is not bytes:
-            msg = self.conn.recv(2048).decode(self.FORMAT)
+            msg = self.conn.recv(4096).decode(self.FORMAT)
             # TODO: implement task handler
         else:
             task : Task = pickle.loads(msg)
