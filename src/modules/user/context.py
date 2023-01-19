@@ -37,8 +37,8 @@ class UserContext:
         queue.release()
         return user
 
-    def insert_user(self, user):
-        user = self.cursor.execute("INSERT INTO users (user_id,username,password,private_key,public_key) VALUES (?,?,?,?,?);", (user.user_id,user.username, user.password_hashed, user.private_key, user.public_key))
+    def insert_user(self, user: User):
+        user = self.cursor.execute("INSERT INTO users (user_id,username,password,private_key,public_key) VALUES (?,?,?,?,?);", (user.user_id,user.username, user.password, user.private_key, user.public_key))
         return user
 
     def find_user(self, _username):
