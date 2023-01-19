@@ -39,6 +39,7 @@ class UserContext:
 
     def insert_user(self, user: User):
         user = self.cursor.execute("INSERT INTO users (user_id,username,password,private_key,public_key) VALUES (?,?,?,?,?);", (user.user_id,user.username, user.password, user.private_key, user.public_key))
+        self.db_context.connection.commit()
         return user
 
     def sync(self, users):
