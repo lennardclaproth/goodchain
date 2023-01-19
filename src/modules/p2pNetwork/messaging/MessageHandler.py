@@ -44,12 +44,12 @@ class MessageHandler:
         # TODO implement task handler
         # TODO: implement pickle load object on index ...
         msg = self.conn.recv(4096)
-        if type(msg) is not bytes:
+        try:
             msg = self.conn.recv(4096).decode(self.FORMAT)
-            # TODO: implement task handler
-        else:
+        except Exception as e:
             task : Task = pickle.loads(msg)
             msg = task.action
+            
         Logger.log(self.type, "RECEIVED MESSAGE", f"message @{self.conn.getpeername()}: '{msg}'")
         # self.message_flow_index = self.message_flow_receive.index(msg)
         
