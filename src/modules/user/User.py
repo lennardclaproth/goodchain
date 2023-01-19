@@ -10,4 +10,4 @@ class User:
     private_key: str
     public_key: str
     pending_actions = []
-    balance = lambda x: State.instance(BlockChain).get_value().get_balance()
+    balance = lambda x: State.instance(BlockChain).get_value().get_balance() if State.instance(BlockChain).get_value() is not None else 50

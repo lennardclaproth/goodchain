@@ -1,8 +1,7 @@
-from modules.blockchain.ChainHandler import ChainHandler
+from modules.p2pNetwork.messaging.MessageQueue import MessageQueue, Task
 from modules.state.variables.BlockChain import BlockChain
 from modules.state.variables.LoggedInUser import LoggedInUser
 from modules.state.variables.SelectedBlock import SelectedBlock
-from modules.transaction.PoolHandler import PoolHandler
 from modules.blockchain.TransactionBlock import TransactionBlock
 from modules.view.actions.IAction import IAction
 import State
@@ -23,6 +22,12 @@ class ValidateBlockAction(IAction):
         chain : TransactionBlock = State.instance(BlockChain).get_value()
         self.update_chain(block, chain)
         State.instance(BlockChain).set_value(chain)
+        queue : MessageQueue = State.instance(MessageQueue).get_value()
+        task = Task(("CLIENT", "BLOCKCHAIN_UPDATE"), chain)
+        queue.lock()
+        queue.enqueue(task)
+        queue.release()
+        # TODO: Broadcast block to network
         return self.page.options.get('1')
 
     def update_chain(self, block: TransactionBlock, chain: TransactionBlock):

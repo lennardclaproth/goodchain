@@ -1,4 +1,5 @@
 from modules.blockchain.ChainHandler import ChainHandler
+from modules.p2pNetwork.messaging.MessageQueue import MessageQueue, Task
 from modules.state.variables.BlockChain import BlockChain
 from modules.state.variables.LoggedInUser import LoggedInUser
 from modules.state.variables.TransactionPool import TransactionPool
@@ -50,8 +51,19 @@ class MineBlockAction(IAction):
             # transaction_list = []
             # PoolHandler.save_pool(transaction_list)
             State.instance(TransactionPool).set_value([], reset=True)
+            queue : MessageQueue = State.instance(MessageQueue).get_value()
+            task = Task(("CLIENT", "TRANSACTION_POOL_UPDATE"), "reset")
+            queue.lock()
+            queue.enqueue(task)
+            queue.release()
             # State.variables.update_state()
         else:
             raise ValueError('An error occured while trying to mine the block.')
         State.instance(BlockChain).set_value(B)
+        queue : MessageQueue = State.instance(MessageQueue).get_value()
+        task = Task(("CLIENT", "BLOCKCHAIN_UPDATE"), B)
+        queue.lock()
+        queue.enqueue(task)
+        queue.release()
+        # TODO: Broadcast block to network
         return self.page.options.get('1')

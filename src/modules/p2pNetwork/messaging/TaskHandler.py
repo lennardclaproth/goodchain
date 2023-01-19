@@ -1,4 +1,6 @@
 from modules.p2pNetwork.messaging.MessageQueue import Task
+from modules.state.variables.BlockChain import BlockChain
+from modules.state.variables.TransactionPool import TransactionPool
 from modules.user.context import UserContext
 
 import State
@@ -29,8 +31,11 @@ class TaskHandler:
 
     @staticmethod
     def handle_transaction_pool_update(task: Task):
-        pass
+        if type(task.data) == str:
+            State.instance(TransactionPool).set_value([],reset=True)
+            return
+        State.instance(TransactionPool).set_value(task.data)
 
     @staticmethod
     def handle_blockchain_update(task: Task):
-        pass
+        State.instance(BlockChain).set_value(task.data)

@@ -1,4 +1,5 @@
 from hashlib import sha256
+from modules.p2pNetwork.messaging.MessageQueue import MessageQueue, Task
 from modules.state.variables.LoggedInUser import LoggedInUser
 from modules.state.variables.TransactionPool import TransactionPool
 from modules.transaction.PoolHandler import PoolHandler
@@ -45,4 +46,9 @@ class TransactionAction(IAction):
         self.add_io(tx)
         self.add_reqd(tx)
         State.instance(TransactionPool).set_value(tx)
+        queue : MessageQueue = State.instance(MessageQueue).get_value()
+        task = Task(("CLIENT", "TRANSACTION_POOL_UPDATE"), tx)
+        queue.lock()
+        queue.enqueue(task)
+        queue.release()
         return self.page.options.get('1')
