@@ -41,6 +41,10 @@ class UserContext:
         user = self.cursor.execute("INSERT INTO users (user_id,username,password,private_key,public_key) VALUES (?,?,?,?,?);", (user.user_id,user.username, user.password, user.private_key, user.public_key))
         return user
 
+    def sync(self, users):
+        # TODO: get all users from db
+        all_users = []
+
     def find_user(self, _username):
         try:
             user_id, username, password, private_key, public_key = self.cursor.execute("SELECT * FROM users WHERE username=?", (str(_username,'utf-8'),)).fetchone()
