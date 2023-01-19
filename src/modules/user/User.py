@@ -4,7 +4,7 @@ from modules.state.variables.BlockChain import BlockChain
 
 @dataclass
 class User:
-    user_id: int
+    user_id: str
     username: str
     password: str
     private_key: str
