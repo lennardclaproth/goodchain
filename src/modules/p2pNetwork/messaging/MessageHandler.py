@@ -47,6 +47,7 @@ class MessageHandler:
         if type(msg) is not bytes:
             msg = self.conn.recv(2048).decode(self.FORMAT)
             # TODO: implement task handler
+        else:
             task : Task = pickle.loads(msg)
             msg = task.action
         Logger.log(self.type, "RECEIVED MESSAGE", f"message @{self.conn.getpeername()}: '{msg}'")
