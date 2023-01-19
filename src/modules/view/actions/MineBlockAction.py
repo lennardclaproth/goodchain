@@ -42,7 +42,7 @@ class MineBlockAction(IAction):
         block_is_valid = B.is_valid(True)
         
         if block_is_valid:
-            leading_zeros = 2
+            leading_zeros = 1
             nonce = B.calculate_nonce(leading_zeros)
             while nonce is not True:
                 nonce = B.calculate_nonce(leading_zeros, nonce + 1)
