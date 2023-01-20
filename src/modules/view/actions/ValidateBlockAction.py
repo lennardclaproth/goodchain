@@ -27,7 +27,6 @@ class ValidateBlockAction(IAction):
         queue.lock()
         queue.enqueue(task)
         queue.release()
-        # TODO: Broadcast block to network
         return self.page.options.get('1')
 
     def update_chain(self, block: TransactionBlock, chain: TransactionBlock):

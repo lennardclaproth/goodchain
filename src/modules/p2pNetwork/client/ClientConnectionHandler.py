@@ -30,10 +30,13 @@ class ClientConnection:
                 continue
             own_ip = self.IP_ADDR.split('.')[-1]
             for i in range(1, 255):
-                if i is not int(own_ip):
-                    connect_thread = threading.Thread(target=self.connect, args=(i,task,))
-                    connect_thread.start()
-            queue.process()
+                try:
+                    if i is not int(own_ip):
+                        connect_thread = threading.Thread(target=self.connect, args=(i,task,))
+                        connect_thread.start()
+                except Exception as e:
+                    continue
+                queue.process()
             
     def connect(self, ip, task):
         conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

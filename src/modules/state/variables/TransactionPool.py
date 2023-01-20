@@ -14,6 +14,9 @@ class TransactionPool(Variable):
     def set_value(self, new_value, reset = False):
         if reset:
             PoolHandler.save_pool([])
+        elif type(new_value) == list:
+            # PoolHandler.save_pool([])
+            PoolHandler.save_pool(new_value)
         else:
             transaction_pool = PoolHandler.load_pool()
             transaction_pool.append(new_value)

@@ -5,9 +5,6 @@ from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
 from modules.p2pNetwork.messaging.MessageQueue import Task
 from modules.user.context import UserContext
 import State
-# TODO: change to 1 message handler (divide between SERVER and CLIENT and set initial message state)
-# TODO: implment message_queue in the message handler
-# TODO: connect should be as follow -> connect -> connection accepted server -> send message -> message received -> disconnect
 
 class MessageHandler:
     def __init__(self, conn, type, initial_state):
@@ -30,7 +27,6 @@ class MessageHandler:
         self.message_sent = None
         
     def send(self, task = None):
-        # TODO: implement pickle dump
         message = self.message_flow_send[self.message_flow_index]
         message = message.encode(self.FORMAT)
         Logger.log(self.type, "SEND MESSAGE", f"message @{self.conn.getpeername()}: '{message}'")
@@ -43,9 +39,7 @@ class MessageHandler:
         self.message_flow_index += 1
 
     def receive(self):
-        # TODO implement task handler
-        # TODO: implement pickle load object on index ...
-        msg = self.conn.recv(4096)
+        msg = self.conn.recv(8192)
         try:
             msg = msg.decode(self.FORMAT)
         except Exception as e:

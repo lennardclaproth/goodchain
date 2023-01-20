@@ -52,9 +52,6 @@ class ViewChain(Page):
 
     def perform_action(self):
         if self.selected_option == 'm' or self.selected_option == 'q':
-            # TODO: create watcher
-            # State.variables.selected_transaction = None
-            # State.variables.selected_block = None
             a = False
         return self.options.get(self.selected_option)
 

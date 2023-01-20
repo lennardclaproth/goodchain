@@ -18,8 +18,6 @@ class MineBlockAction(IAction):
         self.page.time_now = datetime.now()
         self.page.render_body(self.page.size)
 
-# TODO: refactor
-
     def handle(self):
         transaction_list = PoolHandler.load_pool()
         block_chain : TransactionBlock = ChainHandler.load_chain()
@@ -65,5 +63,4 @@ class MineBlockAction(IAction):
         queue.lock()
         queue.enqueue(task)
         queue.release()
-        # TODO: Broadcast block to network
         return self.page.options.get('1')

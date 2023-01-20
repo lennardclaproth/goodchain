@@ -2,17 +2,21 @@ from modules.view.actions.CancelTransactionAction import CancelTransactionAction
 from modules.components.TextBox import TextBox
 from modules.components.Text import Text
 from modules.view.pages.Page import Page
+from modules.view.pages.ErrorPage import ErrorPage
+from modules.view.pages.SuccessPage import SuccessPage
 import State
 
 
 class CancelTransaction(Page):
 
+    # TODO: refactor
+
     def __init__(self):
         super().__init__()
         self.action = CancelTransactionAction(self, self.di_container)
         self.options.update({
-            '1': 'error_screen',
-            '2': 'success_screen'
+            '1': ErrorPage,
+            '2': SuccessPage
         })
 
     def render_header(self, size):
@@ -28,7 +32,7 @@ class CancelTransaction(Page):
         super().render_footer(size)
 
     def perform_action(self):
-        State.variables.update_state()
+        # State.variables.update_state()
         self.action.handle()
         return self.options.get('2')
 

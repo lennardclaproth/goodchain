@@ -52,7 +52,7 @@ class ViewTransaction(Page):
         # Text.get_component(tx_string, size).refresh()
 
     def render_footer(self, size):
-        text = 'm: back to main menu 🏡 \t q: quit the GoodChain 🛑 \t b: back to transactions 💸 '
+        text = 'm: back to main menu 🏡 \t q: quit the GoodChain 🛑 \t b: back 👈 '
         TextBox.get_component(size, 16, text, size[0] - 3).refresh()
 
     def perform_action(self):

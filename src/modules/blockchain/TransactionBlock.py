@@ -5,8 +5,6 @@ from cryptography.hazmat.backends import default_backend
 from modules.state.variables.LoggedInUser import LoggedInUser
 import State
 
-# TODO: refactor class
-
 from modules.transaction.Transaction import Transaction
 
 REWARD_VALUE = 25.0
@@ -90,11 +88,12 @@ class TransactionBlock (Block):
                 return False
         for pbc in pbc_list:
             if self.get_balance(None, pbc) < 0:
-                # State.instance(InvalidTransaction).set().invalid_transactions.append(tx.tx_id)
+                # State.instance(InvalidTransactions).set(tx.tx_id)
+                # .invalid_transactions.append(tx.tx_id)
                 raise ValueError("Transaction is invalid. One or more transactions need to be cancelled.")
                 
         # if len(State.variables.invalid_transactions) > 0 and mine is False:
-        #     return False
+            # return False
 
         total_in, total_out = self.__count_totals()
         

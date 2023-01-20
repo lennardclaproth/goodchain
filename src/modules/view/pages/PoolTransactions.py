@@ -6,6 +6,7 @@ from modules.view.pages.Page import Page
 from modules.components.TextBox import TextBox
 from modules.components.Screen import Screen
 from modules.state.variables.TransactionPool import TransactionPool
+from modules.view.pages.TransactionMenu import TransactionMenu
 from modules.view.pages.ViewTransaction import ViewTransaction
 
 class PoolTransactions(Page):
@@ -14,7 +15,8 @@ class PoolTransactions(Page):
         super().__init__()
 
         self.options.update({
-            '1': ViewTransaction,
+            # '1': ViewTransaction,
+            '1':TransactionMenu
             # 'b': ViewBlock
         })
 
@@ -23,7 +25,6 @@ class PoolTransactions(Page):
         TextBox.get_component(size, 3, text).refresh()
 
     def render_body(self, size):
-        # TODO: refactor
         pool = State.instance(TransactionPool).get_value()
         items = ['No transactions in the transaction pool']
         if len(pool) is not 0:

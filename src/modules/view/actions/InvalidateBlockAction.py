@@ -6,6 +6,8 @@ import State
 
 class InvalidateBlockAction(IAction):
 
+    # TODO: refactor
+
     def __init__(self, page, di_container):
         super().__init__(page, di_container)
 
