@@ -4,6 +4,7 @@ from modules.components.TextBox import TextBox
 from DiContainer import DiContainer
 from modules.state.variables.BlockChain import BlockChain
 from modules.state.variables.SelectedBlock import SelectedBlock
+from modules.view.pages.InvalidateBlock import InvalidateBlock
 from modules.view.pages.Page import Page
 from modules.view.pages.BlockTransactions import BlockTransactions
 from modules.view.pages.ValidateBlock import ValidateBlock
@@ -19,6 +20,7 @@ class ViewBlock(Page):
             '1': BlockTransactions,
             '2': ValidateBlock,
             # '3':'balance_check',
+            '4': InvalidateBlock,
             'b': ViewChain
         })
 
@@ -30,7 +32,7 @@ class ViewBlock(Page):
             raise ValueError('No block selected.')
 
     def render_body(self, size):
-        text_list = [' 🚚 - View transactions ',' 👌 - Validate block ',' 👀 - Check balance when this block was mined ' ]
+        text_list = [' 🚚 - View transactions ',' 👌 - Validate block ',' 👀 - Check balance when this block was mined ', ' 🛑 - Invalidate this block ' ]
         screen = Screen(text_list, size, 3)
         screen.exception_inputs = ['b']
         self.selected_option = screen.run()
@@ -46,6 +48,7 @@ class ViewBlock(Page):
             # State.variables.selected_transaction = None
             # State.variables.selected_block = None
             # return self.selected_option
+        selected_option = self.options.get(self.selected_option)
         return self.options.get(self.selected_option)
 
     def render(self, size):

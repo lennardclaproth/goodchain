@@ -86,11 +86,14 @@ class TransactionBlock (Block):
             pbc_list.append(pbc)
             if not tx.is_valid():
                 return False
-        for pbc in pbc_list:
-            if self.get_balance(None, pbc) < 0:
+        # TODO: comment this to make block invalid
+        if mine is False:
+            for pbc in pbc_list:
+                if self.get_balance(None, pbc) < 0:
+                    raise ValueError("Transaction is invalid. One or more transactions need to be cancelled.")
                 # State.instance(InvalidTransactions).set(tx.tx_id)
                 # .invalid_transactions.append(tx.tx_id)
-                raise ValueError("Transaction is invalid. One or more transactions need to be cancelled.")
+                
                 
         # if len(State.variables.invalid_transactions) > 0 and mine is False:
             # return False

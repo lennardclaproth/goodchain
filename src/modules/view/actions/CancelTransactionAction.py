@@ -1,4 +1,5 @@
 from modules.blockchain.ChainHandler import ChainHandler
+from modules.p2pNetwork.messaging.MessageQueue import MessageQueue, Task
 from modules.state.variables.SelectedTransaction import SelectedTransaction
 from modules.state.variables.TransactionPool import TransactionPool
 from modules.transaction.PoolHandler import PoolHandler
@@ -17,7 +18,6 @@ class CancelTransactionAction(IAction):
 
     def handle(self):
         transaction_list = State.instance(TransactionPool).get_value()
-        
         transaction_found = False
         index = 0
         try:
@@ -30,29 +30,18 @@ class CancelTransactionAction(IAction):
                     if pbc == user.public_key:
                         transaction_found = True
                         transaction_list.pop(index)
-                    if pbc is not user.public_key:
+                    if pbc != user.public_key:
                         raise ValueError("Transaction not made by logged in user")
                 index = index + 1
             if transaction_found == False:
                 raise ValueError("Transaction not in pool")
             State.instance(TransactionPool).set_value(transaction_list)
+            queue : MessageQueue = State.instance(MessageQueue).get_value()
+            task = Task(("CLIENT", "TRANSACTION_POOL_UPDATE"), transaction_list)
+            queue.lock()
+            queue.enqueue(task)
+            queue.release()
         except Exception as e:
             raise ValueError(f"Error occurred while trying to cancel transaction nested exception is:\n{e}")
-        # if State.instance(LoggedInUser) is not None:
-        #     for transaction in transaction_list:
-        #         if transaction.tx_id == State.instance()variables.selected_transaction.tx_id:
-        #             pbc, amt = transaction.inputs[0]
-        #             if pbc == State.variables.logged_in_user.get('public_key'):
-        #                 transaction_found = True
-        #                 transaction_list.pop(index)
-        #         index = index + 1
-        # else:
-        #     State.variables.error = "You are not logged in, please log in if you want to cancel a transaction."
-        #     self.page.options.get('1')
-        
-        # if transaction_found is False:
-        #     State.variables.error = "Transaction is not in pool, if you are in a block you cannot cancel a transaction of that block."
-        #     self.page.options.get('1')
-        # PoolHandler.save_pool(transaction_list)
 
         return self.page.options.get('2')
