@@ -35,8 +35,11 @@ class MessageQueue:
     def process(self):
         if self.locked:
             return
-        task = self.queue[0]
-        task.processed = True
+        try:
+            task = self.queue[0]
+            task.processed = True
+        except IndexError as e:
+            return
         self.dequeue()
 
     def lock(self):
