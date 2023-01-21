@@ -39,7 +39,7 @@ class MessageHandler:
         self.message_flow_index += 1
 
     def receive(self):
-        msg = self.conn.recv(8192)
+        msg = self.conn.recv(81920)
         try:
             msg = msg.decode(self.FORMAT)
         except Exception as e:
