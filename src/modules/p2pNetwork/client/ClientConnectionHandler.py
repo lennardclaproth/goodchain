@@ -36,7 +36,7 @@ class ClientConnection:
                         connect_thread.start()
                 except Exception as e:
                     continue
-                queue.process()
+            queue.process()
             
     def connect(self, ip, task):
         conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
