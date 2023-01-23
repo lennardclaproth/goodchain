@@ -25,7 +25,8 @@ class InvalidateBlockAction(IAction):
             if user is not None:
                 if State.instance(SelectedBlock).get_value().blockId == chain.blockId:
                     for transaction in State.instance(SelectedBlock).get_value().data:
-                        State.instance(TransactionPool).set_value(transaction)
+                        if len(transaction.inputs) > 0 and transaction.type == 0:
+                            State.instance(TransactionPool).set_value(transaction)
                     queue : MessageQueue = State.instance(MessageQueue).get_value()
                     task = Task(("CLIENT", "TRANSACTION_POOL_UPDATE"), State.instance(TransactionPool).get_value())
                     queue.lock()
