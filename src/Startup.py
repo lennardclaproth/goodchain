@@ -3,11 +3,14 @@ import curses
 import State
 from DiContainer import DiContainer
 from modules.db.context import DbContext
-from modules.logging.Logger import Logger
+from modules.p2pNetwork.Logging import Logger
+from modules.p2pNetwork.client.ClientConnectionHandler import ClientConnection
+from modules.p2pNetwork.messaging.MessageQueue import MessageQueue
+from modules.p2pNetwork.server.ServerConnectionHandler import ServerConnection
 from modules.user.context import UserContext
 from modules.blockchain.ChainHandler import ChainHandler
 from modules.view.RenderEngine import Loader as RenderEngine
-from modules.server.Server import Server
+
 class Startup:
 
     @staticmethod
@@ -15,10 +18,11 @@ class Startup:
         State.init(di_container)
         Startup.initialize_curses(stdscr)
         Startup.initialize_di_container(di_container, stdscr)
-        # Startup.initialize_views(di_container)
         Startup.validate_blockchain()
         Logger.load_logs()
-        Server()
+        State.instance(MessageQueue).set_value(MessageQueue())
+        State.instance(ServerConnection).set_value(ServerConnection())
+        State.instance(ClientConnection).set_value(ClientConnection())
 
     def initialize_curses(stdscr):
         curses.curs_set(0)
@@ -28,13 +32,6 @@ class Startup:
         curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
         curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
         curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
-
-
-    @staticmethod
-    # def initialize_views(di_container: DiContainer):
-    #     view_registry: ViewRegistry = ViewRegistry(di_container)
-    #     render_engine: RenderEngine = di_container.get_dependency('render_engine')
-    #     render_engine.view_registry = view_registry
 
     @staticmethod
     def initialize_di_container(di_container: DiContainer, stdscr):

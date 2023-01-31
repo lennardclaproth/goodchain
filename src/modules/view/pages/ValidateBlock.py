@@ -1,10 +1,6 @@
-import pickle
-from DiContainer import DiContainer
-import State
-from modules.blockchain.TransactionBlock import TransactionBlock
-from modules.view.actions.MineBlockAction import MineBlockAction
 from modules.view.actions.ValidateBlockAction import ValidateBlockAction
 from modules.components.Text import Text
+from modules.view.pages.InvalidateBlock import InvalidateBlock
 from modules.view.pages.Page import Page
 from modules.components.TextBox import TextBox
 from modules.view.pages.SuccessPage import SuccessPage
@@ -16,7 +12,6 @@ class ValidateBlock(Page):
         super().__init__()
         self.options = {
             '1': SuccessPage,
-            '3': 'invalidate_block'
         }
         self.reqd = []
         self.time_start = None

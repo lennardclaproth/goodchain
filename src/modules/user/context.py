@@ -1,9 +1,14 @@
 from hashlib import sha256
+import random
+import string
 import sys
+import State
 from modules.db.context import DbContext
 
 from modules.signing.Signature import Signature
 from modules.user.User import User
+
+from modules.p2pNetwork.messaging.MessageQueue import Task, MessageQueue
 
 
 class UserContext:
@@ -13,15 +18,27 @@ class UserContext:
         self.create_table_if_not_exists()
 
     def create_table_if_not_exists(self):
-        statement = 'CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT, private_key TEXT, public_key TEXT)'
+        statement = 'CREATE TABLE IF NOT EXISTS users (user_id TEXT PRIMARY KEY, username TEXT UNIQUE, password TEXT, private_key TEXT, public_key TEXT)'
         self.cursor.execute(statement)
         self.db_context.connection.commit()
 
     def create_user(self, username, password):
         private_key, public_key = Signature.generate_keys()
         password_hashed = sha256(password).hexdigest()
-        user = self.cursor.execute("INSERT INTO users (username,password,private_key,public_key) VALUES (?,?,?,?);", (str(
+        chars = string.ascii_uppercase + string.digits
+        user_id = f"{''.join(random.choice(chars) for _ in range(4))}-{''.join(random.choice(chars) for _ in range(4))}-{''.join(random.choice(chars) for _ in range(4))}"
+        user = self.cursor.execute("INSERT INTO users (user_id,username,password,private_key,public_key) VALUES (?,?,?,?,?);", (user_id,str(
             username, 'utf-8'), password_hashed, private_key, public_key))
+        self.db_context.connection.commit()
+        task = Task(("CLIENT","USER_CREATE"), self.find_user(username))
+        queue : MessageQueue = State.instance(MessageQueue).get_value()
+        queue.lock()
+        queue.enqueue(task)
+        queue.release()
+        return user
+
+    def insert_user(self, user: User):
+        user = self.cursor.execute("INSERT INTO users (user_id,username,password,private_key,public_key) VALUES (?,?,?,?,?);", (user.user_id,user.username, user.password, user.private_key, user.public_key))
         self.db_context.connection.commit()
         return user
 

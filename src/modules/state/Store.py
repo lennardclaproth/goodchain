@@ -2,7 +2,6 @@ from ClassLoader import ClassLoader, ClassWrapper
 
 from modules.state.variables.Variable import Variable
 from modules.view.pages.Page import Page
-# TODO: change this so that it updates data correctly and often (check update_state and what it needs)
 
 
 class Store:
@@ -11,17 +10,6 @@ class Store:
         self.__modules = [('modules.state.variables', Variable),
                           ('modules.view.pages', Page)]
         self.__registry = {}
-
-        # self.logged_in_user = None
-        # self.error = None
-        # self.is_chain_valid = False
-        # self.is_block_validated = False
-        # self.pending_actions = []
-        # self.balance = None
-        # self.chain : TransactionBlock = None
-        # self.selected_transaction = None
-        # self.selected_block = None
-        # self.invalid_transactions = []
 
     def initialize_registry(self):
         for module_name, type in self.__modules:

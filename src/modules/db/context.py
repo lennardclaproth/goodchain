@@ -6,4 +6,4 @@ import sqlite3
 
 class DbContext:
     def __init__(self):
-        self.connection = sqlite3.connect("data/goodchain.db")
+        self.connection = sqlite3.connect("data/goodchain.db", check_same_thread=False)

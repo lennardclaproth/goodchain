@@ -19,8 +19,8 @@ class Block:
 
     def computeHash(self):
         digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
-        digest.update(bytes(str(self.blockId), 'utf8'))
         digest.update(bytes(str(self.mined_by), 'utf8'))
+        digest.update(bytes(str(self.blockId), 'utf8'))
         digest.update(bytes(str(self.data), 'utf8'))
         digest.update(bytes(str(self.previousHash), 'utf8'))
         return digest.finalize()

@@ -1,4 +1,3 @@
-import pickle
 import State
 from modules.state.variables.Logs import Logs
 from datetime import datetime
@@ -14,18 +13,6 @@ class Logger:
             Logger.create_file()    
         except Exception as e:
             raise ValueError(f'Error while trying to load transaction pool from file.\nNested exception is: {e}')
-
-    # @staticmethod
-    # def read_logs(objects = []):
-    #     with open("data/logs.txt", "rb+") as file:
-    #         objects = objects
-    #         while True:
-    #             try:
-    #                 objects = pickle.load(file)
-    #             except EOFError:
-    #                 break
-    #         file.close()
-    #     return objects
 
     @staticmethod
     def create_file():

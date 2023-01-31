@@ -10,9 +10,9 @@ class Logs(Variable):
     subscriptable = True
 
     def get_value(self):
-        from modules.logging.Logger import Logger
+        from modules.p2pNetwork.Logging import Logger
         return Logger.load_logs()
 
     def set_value(self, new_value):
-        from modules.logging.Logger import Logger
+        from modules.p2pNetwork.Logging import Logger
         Logger.save_logs(new_value)

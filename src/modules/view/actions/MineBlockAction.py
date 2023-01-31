@@ -1,4 +1,5 @@
 from modules.blockchain.ChainHandler import ChainHandler
+from modules.p2pNetwork.messaging.MessageQueue import MessageQueue, Task
 from modules.state.variables.BlockChain import BlockChain
 from modules.state.variables.LoggedInUser import LoggedInUser
 from modules.state.variables.TransactionPool import TransactionPool
@@ -16,8 +17,6 @@ class MineBlockAction(IAction):
     def calc_time_difference(self):
         self.page.time_now = datetime.now()
         self.page.render_body(self.page.size)
-
-# TODO: refactor
 
     def handle(self):
         transaction_list = PoolHandler.load_pool()
@@ -41,7 +40,7 @@ class MineBlockAction(IAction):
         block_is_valid = B.is_valid(True)
         
         if block_is_valid:
-            leading_zeros = 2
+            leading_zeros = 1
             nonce = B.calculate_nonce(leading_zeros)
             while nonce is not True:
                 nonce = B.calculate_nonce(leading_zeros, nonce + 1)
@@ -50,8 +49,15 @@ class MineBlockAction(IAction):
             # transaction_list = []
             # PoolHandler.save_pool(transaction_list)
             State.instance(TransactionPool).set_value([], reset=True)
+            State.instance(BlockChain).set_value(B)
+            queue : MessageQueue = State.instance(MessageQueue).get_value()
+            task1 = Task(("CLIENT", "TRANSACTION_POOL_UPDATE"), "reset")
+            task2 = Task(("CLIENT", "BLOCKCHAIN_UPDATE"), B)
+            queue.lock()
+            queue.enqueue(task1)
+            queue.enqueue(task2)
+            queue.release()
             # State.variables.update_state()
         else:
             raise ValueError('An error occured while trying to mine the block.')
-        State.instance(BlockChain).set_value(B)
         return self.page.options.get('1')

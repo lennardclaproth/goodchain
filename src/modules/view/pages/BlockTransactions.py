@@ -26,7 +26,6 @@ class BlockTransactions(Page):
         TextBox.get_component(size, 3, text).refresh()
 
     def render_body(self, size):
-        # TODO: refactor
         block : TransactionBlock = State.instance(SelectedBlock).get_value()
         transactions = block.data
         if len(transactions) is not 0:

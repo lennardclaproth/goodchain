@@ -5,8 +5,6 @@ from cryptography.hazmat.backends import default_backend
 from modules.state.variables.LoggedInUser import LoggedInUser
 import State
 
-# TODO: refactor class
-
 from modules.transaction.Transaction import Transaction
 
 REWARD_VALUE = 25.0
@@ -88,13 +86,17 @@ class TransactionBlock (Block):
             pbc_list.append(pbc)
             if not tx.is_valid():
                 return False
-        for pbc in pbc_list:
-            if self.get_balance(None, pbc) < 0:
-                # State.instance(InvalidTransaction).set().invalid_transactions.append(tx.tx_id)
-                raise ValueError("Transaction is invalid. One or more transactions need to be cancelled.")
+        # TODO: comment this to make block invalid
+        if mine is False:
+            for pbc in pbc_list:
+                if self.get_balance(None, pbc) < 0:
+                    raise ValueError("Transaction is invalid. One or more transactions need to be cancelled.")
+                # State.instance(InvalidTransactions).set(tx.tx_id)
+                # .invalid_transactions.append(tx.tx_id)
+                
                 
         # if len(State.variables.invalid_transactions) > 0 and mine is False:
-        #     return False
+            # return False
 
         total_in, total_out = self.__count_totals()
         
@@ -107,6 +109,9 @@ class TransactionBlock (Block):
     def calculate_nonce(self, leading_zeros, nonce = 0):
         found = False
         digest = hashes.Hash(hashes.SHA256(), backend=default_backend())
+        # digest.update(bytes(str(self.data), 'utf8'))
+        # digest.update(bytes(str(self.previousHash), 'utf8'))
+        digest.update(bytes(str(self.blockId), 'utf8'))
         digest.update(bytes(str(self.data), 'utf8'))
         digest.update(bytes(str(self.previousHash), 'utf8'))
         digest_temp = digest.copy()

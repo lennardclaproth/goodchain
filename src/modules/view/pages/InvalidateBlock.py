@@ -7,7 +7,6 @@ from modules.components.Screen import Screen
 from modules.view.pages.Page import Page
 from modules.components.TextBox import TextBox
 from modules.view.pages.ErrorPage import ErrorPage
-from modules.view.pages.MainMenu import MainMenu
 from modules.view.pages.SuccessPage import SuccessPage
 
 class InvalidateBlock(Page):
@@ -15,6 +14,7 @@ class InvalidateBlock(Page):
     def __init__(self):
         super().__init__()
         self.action = InvalidateBlockAction(self, self.di_container)
+        from modules.view.pages.MainMenu import MainMenu
         self.options.update({
             '1': ErrorPage,
             '2': MainMenu,

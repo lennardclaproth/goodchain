@@ -2,6 +2,7 @@ from modules.components.Screen import Screen
 from modules.components.TextBox import TextBox
 from DiContainer import DiContainer
 from modules.state.variables.SelectedBlock import SelectedBlock
+from modules.view.pages.CancelTransaction import CancelTransaction
 from modules.view.pages.Page import Page
 from modules.blockchain.ChainHandler import ChainHandler
 import State
@@ -14,7 +15,7 @@ class PendingActions(Page):
         super().__init__()
         self.options = {
             '1':ValidateBlock,
-            '2':BlockTransactions,
+            '2':CancelTransaction,
         }
 
     def render_header(self, size):

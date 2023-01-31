@@ -21,7 +21,6 @@ class ErrorPage(Page):
     def render_footer(self, size):
         text = 'm: back to main menu 🏡 \t q: quit the GoodChain 🛑'
         padding = 10
-        # TODO: refactor
         text = 'm: back to main menu 🏡 \t q: quit the GoodChain 🛑 \t z: redo previous action 👈'
         padding = 16
         TextBox.get_component(size, padding, text, size[0]-3).refresh()
